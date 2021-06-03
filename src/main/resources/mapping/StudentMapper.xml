@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cgd.demo.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="com.cgd.demo.entity.Student">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="userName" jdbcType="VARCHAR" property="name" />
+        <result column="dept" jdbcType="VARCHAR" property="dept" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+    </resultMap>
+    <!--查询用户信息-->
+    <select id="getStudentInfo" resultType="com.cgd.demo.entity.Student">
+        select * from student where id = #{id}
+    </select>
+    <!--删除用户信息-->
+    <delete id="deleteById" parameterType="int">
+        delete from student where id=#{id}
+    </delete>
+    <!--返回所有用户信息-->
+    <select id="selectAll"  resultType="com.cgd.demo.entity.Student">
+        select * from student
+    </select>
+
+    <!--增加用户信息-->
+    <insert id="save" parameterType="com.cgd.demo.entity.Student" >
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="dept != null" >
+                dept,
+            </if>
+
+            <if test="age != null" >
+                age,
+            </if>
+            <if test="phone != null" >
+                phone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="dept != null" >
+                #{dept,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null" >
+                #{age,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据id更改用户信息-->
+    <update id="update" parameterType="com.cgd.demo.entity.Student">
+        update student set name=#{name,jdbcType=VARCHAR},
+                           dept=#{dept,jdbcType=VARCHAR},
+                           phone=#{phone,jdbcType=VARCHAR},
+                           age=#{age,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
